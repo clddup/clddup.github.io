@@ -1,6 +1,6 @@
 > Node
 
-# 多层目录创建
+## 多层目录创建
 ```js
 function mkdirsSync(dirname){
     if (fs.existsSync(dirname)) {  
@@ -14,7 +14,7 @@ function mkdirsSync(dirname){
 }
 ```
 
-# 删除文件夹
+## 删除文件夹
 ```js
 function mkdirsSync(dirname){
     if (fs.existsSync(dirname)) {  
@@ -28,7 +28,7 @@ function mkdirsSync(dirname){
 }
 ```
 
-# node实现文件下载
+## node实现文件下载
 ```js
 const fs = require('fs'),
 path=require('path'),
@@ -58,7 +58,7 @@ function downLoadFile(url, name){
     })
 }
 ```
-# Node执行Exec返回数据乱码解决
+## Node执行Exec返回数据乱码解决
 ```js
 cp.exec(command,{cwd:path.join(__dirname,'./'), encoding: 'buffer'},(error, stdout, stderr) => {
 	const iconv = require('iconv-lite');
@@ -68,7 +68,7 @@ cp.exec(command,{cwd:path.join(__dirname,'./'), encoding: 'buffer'},(error, stdo
 })
 ```
 
-# 反向代理
+## 反向代理
 ```js
 // 导入http模块
 var http = require('http');
@@ -112,7 +112,7 @@ var target = process.argv[2];//代理的目标地址
  });
 ```
 
-# socks5代理
+## socks5代理
 ```bash
 npm i node-socks5-server
 ```
@@ -132,7 +132,7 @@ curl http://www.baidu.com/ --socks5 localhost:1080
 curl http://www.baidu.com/ --socks5-hostname localhost:1080
 curl http://www.baidu.com/ --socks5 user:password@localhost:1080
 ```
-# 异步控制并发数
+## 异步控制并发数
 ```js
 const https = require('https');
 limitRequest([
@@ -173,11 +173,11 @@ function limitRequest(urls=[], limit = 3){
     })
 }
 ```
-# 判断路径是否为绝对路径
+## 判断路径是否为绝对路径
 ```js
 path.isAbsolute(url) 判断路径是否为绝对路径
 ```
-# Node发送邮件
+## Node发送邮件
 ```js
 const nodemailer = require('nodemailer');
 
