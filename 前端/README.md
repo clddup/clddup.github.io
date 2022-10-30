@@ -171,8 +171,49 @@ function fakeClick(obj) {
     obj.dispatchEvent(ev);
 }
 ```
+# ajax下载文件进度监听
+```js
+function download(url){
+    var page_url = url;
+    var req = new XMLHttpRequest();
+    req.open("get", page_url, true);
+    //监听进度事件
+    req.addEventListener("progress", function (evt) {
+        // console.log(evt);
+        if (evt.lengthComputable) {
+            var percentComplete = evt.loaded / evt.total;
+            // console.log(percentComplete);
+        console.log((percentComplete * 100) + "%");
+            // $("#progressing").html((percentComplete * 100) + "%");
+        }
+    }, false);
+    req.responseType = "blob";
+    req.onreadystatechange = function () {
+        if (req.readyState === 4 && req.status === 200) {
+            // var filename = $(that).data('filename');
+            var filename = 'downFile';
+            if (typeof window.chrome !== 'undefined') {
+                // Chrome version
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(req.response);
+                link.download = filename;
+                link.click();
+            } else if (typeof window.navigator.msSaveBlob !== 'undefined') {
+                // IE version
+                var blob = new Blob([req.response], { type: 'application/force-download' });
+                window.navigator.msSaveBlob(blob, filename);
+            } else {
+                // Firefox version
+                var file = new File([req.response], filename, { type: 'application/force-download' });
+                window.open(URL.createObjectURL(file));
+            }
+        }
+    };
+    req.send();
+}
+```
 
-## input获取文件信息
+# input获取文件信息
 ```js
 input.oninput=function(event){
     let reader = new FileReader();            
@@ -194,7 +235,7 @@ readAsBinaryString：该方法将文件读取为二进制字符串，通常我�
 
 readAsDataURL：这是例子程序中用到的方法，该方法将文件读取为一段以 data: 开头的字符串，这段字符串的实质就是 Data URL，Data URL是一种将小文件直接嵌入文档的方案。这里的小文件通常是指图像与 html 等格式的文件
 
-## 版本号对比
+# 版本号对比
 ```js
 function compareVersion(v1, v2) {
   v1 = v1.split('.')
@@ -223,7 +264,7 @@ function compareVersion(v1, v2) {
 }
 ```
 
-## 通过堆栈获取函数调用者的路径
+# 通过堆栈获取函数调用者的路径
 ```js
 function _getCalerFile() {//通过堆栈获取函数调用者的路径
     try {
@@ -245,14 +286,14 @@ function _getCalerFile() {//通过堆栈获取函数调用者的路径
  }
 ```
 
-## 元素滚动条不占空间
+# 元素滚动条不占空间
 ```css
 *{
    overflow : overlay;
 }
 ```
 
-## css修改图片颜色
+# css修改图片颜色
 ```css
 img{
     position: relative;
@@ -261,7 +302,7 @@ img{
 }
 ```
 
-## css颜色16进制末尾追加两位实现透明度
+# css颜色16进制末尾追加两位实现透明度
 
 我们一般表示带有透明度的颜色一般用 RGBA 来表示, 但有时会遇到用16进制颜色直接表达带有透明度的颜色, 具体如下:
 
@@ -368,7 +409,7 @@ img{
 1% — 03
 0% — 00
 ```
-## 计算中间颜色
+# 计算中间颜色
 ```js
 var parseColor = function (hexStr) {
     return hexStr.length === 4 ? hexStr.substr(1).split('').map(function (s) { return 0x11 * parseInt(s, 16); }) : [hexStr.substr(1, 2), hexStr.substr(3, 2), hexStr.substr(5, 2)].map(function (s) { return parseInt(s, 16); })
@@ -406,3 +447,208 @@ var gradientColors = function (start, end, steps, gamma) {
 gradientColors('#00000','#fffff',10) //['#000000', '#1c1c02', '#393903', '#555505', '#717107', '#8e8e08', '#aaaa0a', '#c6c60c', '#e3e30d', '#ffff0f']
 ```
 
+# 数组排序
+```js
+function sort(arr){
+    if(arr.length<=1){
+        return arr;
+    }
+    for(let i=0;i<arr.length;i++){
+        for(let j = i+1;j<arr.length;j++){
+            if(arr[i]>arr[j]){
+                arr[i] ^= arr[j];
+                arr[j] ^= arr[i];
+                arr[i] ^= arr[j];
+            }
+        }
+    }
+    return arr;
+}
+```
+
+# 根据出现的次数进行排序
+```js
+let arr = [1,2,3,4,5,6,1,2,5,3,6,9,8,7,4,5,2,3,5,9,5,4,1,32,3,6,5,4,74];
+console.log(Object.entries(arr.reduce((total,prev)=>{
+    if(total[prev]){
+        total[prev]++;
+    }else{
+        total[prev] = 1;
+    }
+    return total;
+},{})).sort((n1,n2)=>n2[1]-n1[1]));
+```
+
+# 给对象设置只读属性
+```js
+Object.defineProperty(this, 'a', {
+	enumerable: false,enumerable 描述属性是否会出现在for in 或者 Object.keys()的遍历中
+	configurable: false,//描述属性是否配置，以及可否删除
+	writable: false,// 是否可以改变
+	value: x 
+});
+```
+
+# 设置getter属性
+```js
+Object.defineProperty(window,'goby',{
+    get(){
+        return 1;
+    },
+    set(){
+        return false;
+    },
+    configurable:false
+})
+```
+
+# 获取iframe全局window对象
+```js
+获取iframe全局window对象
+```
+#  js动态引入js文件与css 并且不带缓存
+```js
+document.write(`<script src="./index.js?t=${new Date().getTime()}"></\script>`)
+```
+
+# js随机生成颜色
+```js
+'#' + Math.random().toString(16).substr(-6);
+```
+# base64编码 解码
+```
+编码    btoa
+解码    atob
+```
+# 迭代器
+## Generator实现
+```js
+function * obj(_obj){
+    let values = Object.values(_obj);
+    for(let i in values){
+        yield values[i];
+    }
+}
+
+let __Obj = obj({
+    a:'哈哈',
+    b:'呵呵',
+    c:'哈哈呵呵'
+})
+
+for(let i of __Obj){
+    console.log(i);
+}
+```
+
+## Class + Generator实现
+```js
+class _obj {
+    constructor(obj){
+        for(let i in obj){
+            this[i] = obj[i];
+        }
+    }
+    * [Symbol.iterator](){
+        for(let i of Object.values(this)){
+            yield i;
+        }
+    }
+    
+}
+    
+let obj = new _obj({
+    a:"哈哈",
+    b:"呵呵",
+    c:"哈哈呵呵"
+})
+
+for(let i of obj){
+    console.log(i);
+}
+```
+
+## Class + next实现
+```js
+class _obj {
+    constructor(obj){
+        for(let i in obj){
+            this[i] = obj[i];
+        }
+    }
+    [Symbol.iterator](){
+        let index = 0;
+        let values = Object.values(this);
+        return {
+            next(){
+                return {
+                    value:values[index++],
+                    done:index>values.length
+                }
+            }
+        }
+    }
+    
+}
+    
+let obj = new _obj({
+    a:"哈哈",
+    b:"呵呵",
+    c:"哈哈呵呵"
+})
+
+for(let i of obj){
+    console.log(i);
+}
+```
+
+# js大数据计算
+```bash
+npm i node-bignum
+```
+# 防抖
+```js
+function debounce(fn,delay){
+    let timer
+    return function (...args){
+        if(timer){
+            clearTimeout(timer)
+        }
+        timer = setTimeout(()=>{
+            fn.apply(this,args)
+        },delay)
+        
+    }
+}
+//测试
+function task(){
+    console.log('run task');
+}
+
+const debounceTask = debounce(task,500)
+window.addEventListener('scroll',debounceTask)
+```
+
+# 节流
+```js
+function throttle(fn,delay){
+    let last = 0;
+    return function(...args){
+        const now = Date.now()
+        if(now - last > delay){
+            last = now
+            fn.apply(this,args)
+        }
+    }
+}
+
+//测试
+
+function task(){
+    console.log('run task')
+}
+
+const throttleTask = throttle(task,1000)
+
+window.addEventListener('scroll',throttleTask)
+```
