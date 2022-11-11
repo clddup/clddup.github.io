@@ -447,4 +447,53 @@ const throttleTask = throttle(task,1000)
 
 window.addEventListener('scroll',throttleTask)
 ```
+## 把数组最后一项移到第一项
+```js
+function (arr){
+    return arr.push(arr.shift());
+}
+```
 
+## 把数组的第一项放到最后一项
+```js
+function(arr){
+  return arr.unshift(arr.pop());
+}
+```
+
+## 检测是否为空对象
+通过使用Es6的Reflect静态方法判断他的长度就可以判断是否是空数组了，也可以通过**Object.keys()**来判断
+```js
+function isEmpty(obj){
+    return  Reflect.ownKeys(obj).length === 0 && obj.constructor === Object;
+}
+```
+
+## 各种数组克隆方法
+数组克隆的方法其实特别多了，看看有没有你没见过的！
+```js
+const clone = (arr) => arr.slice(0);
+const clone = (arr) => [...arr];
+const clone = (arr) => Array.from(arr);
+const clone = (arr) => arr.map((x) => x);
+const clone = (arr) => JSON.parse(JSON.stringify(arr));
+const clone = (arr) => arr.concat([]);
+const clone = (arr) => structuredClone(arr);
+```
+
+## 计算两个时间之间的月份差异
+```js
+function monthDiff(startDate, endDate){
+    return  Math.max(0, (endDate.getFullYear() - startDate.getFullYear()) * 12 - startDate.getMonth() + endDate.getMonth());
+}
+
+```
+##一步从时间中提取年月日时分秒
+时间格式化轻松解决，一步获取到年月日时分秒毫秒，由于toISOString会丢失时区，导致时间差八小时，所以在格式化之前我们加上八个小时时间即可
+```js
+function extract(date){
+   const d = new Date(new Date(date).getTime() + 8*3600*1000);
+  return new Date(d).toISOString().split(/[^0-9]/).slice(0, -1);
+}
+console.log(extract(new Date())) // ['2022', '09', '19', '18', '06', '11', '187']
+```
