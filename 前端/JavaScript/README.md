@@ -489,6 +489,7 @@ function monthDiff(startDate, endDate){
 
 ```
 ## 一步从时间中提取年月日时分秒
+
 时间格式化轻松解决，一步获取到年月日时分秒毫秒，由于toISOString会丢失时区，导致时间差八小时，所以在格式化之前我们加上八个小时时间即可
 ```js
 function extract(date){

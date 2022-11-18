@@ -48,3 +48,31 @@ div.classList.remove(...cls);
 // 将类值 "foo" 替换成 "bar"
 div.classList.replace("foo", "bar");
 ```
+
+## 输入框文字下出现红色波浪线
+
+spellcheck 属性规定是否对元素内容进行拼写检查
+
+可对以下文本进行拼写检查：
+
+- 类型为 text 的 input 元素中的值（非密码）
+- textarea 元素中的值
+- 可编辑元素中的值
+
+语法
+```HTML
+<element spellcheck="true|false">
+<!-- 
+ true  	规定应当对元素的文本进行拼写检查。
+ false	规定不应对元素的文本进行拼写检查。
+ -->
+```
+
+在electron中
+```js
+const myWindow = new BrowserWindow({
+  webPreferences: {
+    spellcheck: false // 取消拼写检查
+  }
+})
+```
