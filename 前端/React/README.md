@@ -274,3 +274,99 @@ export default class App extends Component {
 }
 
 ```
+
+## 父子组件通信
+
+通过props通信
+
+```jsx
+import React, { Component } from 'react'
+class Child extends Component {
+	render(){
+		return (<button onClick={()=>{
+			this.props.event()
+		}}>子传父</button>)
+	}
+}
+
+export default class App extends Component {
+	render(){
+		return (<Child event={()=>{
+			console.log('子组件通知了我')
+		}} />)
+	}
+}
+```
+
+```jsx
+import React, { Component } from 'react'
+class Child extends Component {
+	render(){
+		return <span>子组件</span>
+	}
+	log(value){
+	    console.log(value)
+	}
+}
+
+export default class App extends Component {
+	child = React.createRef()
+	render(){
+		return (
+			<button onClick={()=>{
+				this.child.current.log('父组件调用子组件方法')
+			}}>父组件按钮</button>
+			<Child ref={this.child} />
+		)
+	}
+}
+```
+
+## context
+```jsx
+import React, { Component } from 'react'
+const GlobalContext = React.createContext()
+
+class Child extends Component {
+	render(){
+		return (
+			<GlobalContext.Consumer>
+				{value => {
+					return (
+						<div>
+							{value.text}
+							<br />
+							<button onClick={()=>{
+								value.changeText('cl-ddup')
+							}}>修改text</button>
+						</div>
+					)
+				}}
+			</GlobalContext.Consumer>
+		)
+	}
+}
+
+export default class App extends Component {
+	constructor(){
+		super()
+		this.state = {
+			text: "info"
+		}
+	}
+	render(){
+		return (
+			<GlobalContext.Provider value={{
+				text: this.state.text,
+				changeText: text => {
+					this.setState({
+						text
+					})
+				}
+			}}>
+				<Child />
+			</GlobalContext.Provider>
+		)	
+	}
+}
+```
