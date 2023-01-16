@@ -2,6 +2,7 @@
     * [HTML](前端/HTML/)
     * [CSS](前端/CSS/)
     * [JavaScript](前端/JavaScript/)
+	* [设计模式](前端/设计模式/)
     * [Vue](前端/Vue/)
 	* [React](前端/React/)
     * [Babel](前端/Babel/)
