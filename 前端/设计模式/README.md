@@ -568,3 +568,137 @@ export default {
   console.log(myObj.decrease())
 </script>
 ```
+
+### 十五.桥接模式
+> 桥接模式: 将抽象部分与它的实现部分分离, 使它们都可以独立地变化
+
+> 使用场景: 一个类存在两个或多个独立变化的纬度, 且这两个纬度都需要进行扩展
+
+**优点**:
+
+把抽象与实现隔离开, 有助于独立地管理各组成部分
+
+**缺点**:
+
+每使用一个桥接元素都要增加一次函数调用, 这对应用程序的性能会有一些负面影响 -- 提高了系统的复杂程度
+
+```javascript
+const Animations = {
+  bounce:{
+    show(ele){
+      console.log(ele, '弹跳显示');
+    },
+    hide(ele){
+      console.log(ele, '弹跳隐藏');
+    }
+  },
+  slide:{
+    show(ele){
+      console.log(ele, '滑动显示');
+    },
+    hide(ele){
+      console.logele, ('滑动隐藏');
+    }
+  },
+  rotate:{
+    show(ele){
+      console.log(ele, '旋转显示');
+    },
+    hide(ele){
+      console.log(ele, '旋转隐藏');
+    }
+  }
+}
+
+class Toast {
+  constructor(ele, animation){
+    this.ele = ele;
+    this.animation = animation
+  }
+  show(){
+    // 抽象s
+    this.animation.show()
+  }
+  hide(){
+    // 隐藏
+    this.animation.hide()
+  }
+}
+
+let toast1 = new Toast("div1", Animations.rotate)
+
+toast1.show()
+setTimeout(()=>{
+  toast1.hide()
+}, 1000)
+
+```
+
+### 十六. 组合模式
+> 组合模式在对象间形成树形结构;
+
+> 组合模式中基本对象和组合对象被一致对待;
+
+> 无需关心对象有多少层, 调用时只需在根部进行调用
+
+它在我们树型结构的问题中, 模糊了简单元素和复杂元素的概念, 客户程序可以向处理简单元素一样来处理复杂元素, 从而使客户程序与复杂的内部结构解耦
+
+```javascript
+class Folder {
+  constructor(folder){
+    this.folder = folder
+    this.lists = []
+  }
+  add(res){
+    this.lists.push(res)
+  }
+  scan(){
+    console.log(`开始扫描文件夹: ${this.folder}`)
+    for(let i = 0; i < this.lists.length; i ++) {
+      this.lists[i].scan()
+    }
+  }
+}
+
+class File {
+  constructor(file){
+    this.file = file
+  }
+  scan(){
+    console.log(`开始扫描文件: ${this.file}`)
+  }
+}
+
+// 根
+let rootFolder = new Folder("root")
+
+// 子文件夹
+let htmlFolder = new Folder("html")
+let cssFolder = new Folder("css")
+let jsFolder = new Folder("js")
+
+rootFolder.add(htmlFolder)
+rootFolder.add(cssFolder)
+rootFolder.add(jsFolder)
+
+let htmlFile = new File('index.html')
+let html5File = new File('h5.html')
+
+let cssFile = new File('style.css')
+let css3File = new File('css3.style')
+
+let es5File = new File('index.js')
+let es6File = new File('es6.js')
+
+htmlFolder.add(htmlFile)
+htmlFolder.add(html5File)
+
+cssFolder.add(cssFile)
+cssFolder.add(css3File)
+
+jsFolder.add(es5File)
+jsFolder.add(es6File)
+
+rootFolder.scan()
+
+```
