@@ -702,3 +702,138 @@ jsFolder.add(es6File)
 rootFolder.scan()
 
 ```
+### 十七.命令模式
+> 有时候需要向某些对象发送请求, 但是并不知道请求的接收者是谁, 也不知道被请求的操作是什么, 需要一种松耦合的方式来设计程序, 使得发送者和接收者能够消除彼此之间的耦合关系
+
+命令模式由三种角色构成: 
+
+1.  发布者 invoker (发出命令,调用命令对象,不知道如何执行与谁执行)
+2.  接收者 receiver (提供对应接口处理请求. 不知道谁发起请求)
+3.  命令对象 command (接收命令. 调用接收者对应接口处理发布者的请求)
+
+```javascript
+class Receiver {
+  // 接收类
+  execute(){
+    console.log("接收者执行请求")
+  }
+}
+
+class Command {
+  constructor(receiver) {
+    this.receiver = receiver
+  }
+  // 命令类
+  execute(){
+    console.log("命令对象 => 接收者如何处理")
+    this.receiver.execute()
+  }
+}
+
+class Invoker {
+  constructor(command){
+    this.command = command
+  }
+  // 发布类
+  order(){
+    console.log("发布请求");
+    this.command.execute()
+  }
+}
+
+const order = new Command(new Receiver())
+
+const client = new Invoker(order)
+
+client.order()
+```
+
+### 十八.模板方法模式
+
+>模板方法模式由两部分组成, 第一部分是抽象父类, 第二部分是具体的实现子类. 通常在抽象父类中封装了子类的算法框架, 包括实现一些公共方法以及封装子类中所有方法的执行顺序. 子类通过继承这个抽象类, 也继承了整个算法结构, 并且可以选择重写父类的方法
+
+```javascript
+var Container = function (params={}){
+  if(!params.getData) throw new Error("必须传入getData")
+  class F {
+    constructor(){
+
+    }
+    
+    init(){
+      let list = this.getData()
+      this.render(list)
+    }
+    getData = params.getData
+    render(list){
+      console.log('render', list);
+    }
+  }
+
+  return F
+}
+
+var Myclass = Container({
+  getData(){
+    console.log('获取Data')
+    return [1,2,3]
+  }
+})
+new Myclass().init()
+
+var Myclass2 = Container({
+  getData(){
+    console.log('获取Data2')
+    return [4,5,6]
+  }
+})
+new Myclass2().init()
+
+```
+模板方法模式是一种典型的通过封装变化提高系统扩展性的设计模式. 运用了模板方法模式的程序中,子类方法种类和执行顺序都是不变的, 但是子类的方法具体实现则是可变的. 父类是个模版, 子类可以添加,就增加了不同的功能
+
+### 十九.迭代器模式
+>迭代器模式是指提供一种方法顺序访问一个聚合对象中的各个元素, 而又不需要暴露该对象的内部表示. 迭代器模式可以把迭代的过程从业务逻辑中分离出来, 在使用迭代器模式之后, 即时不关心对象的内部构造, 也可以按顺序方法其中的每个元素
+
+1.  为遍历不同数据结构的"集合"提供统一的接口
+
+2.  能遍历访问"集合"数据中的项, 不关心项的数据结构
+
+```javascript
+Object.prototype[Symbol.iterator] = function(){
+  let index = 0;
+  let keys = Object.keys(this);
+  let values = Object.values(this);
+  return {
+    next() {
+      return {
+        value: [keys[index], values[index++]],
+        done: index > keys.length,
+      };
+    },
+  };
+}
+
+let obj = {
+  name: "clddup",
+  age: 18
+};
+
+for (let i of obj) {
+  console.log(i);
+}
+```
+
+### 二十.职责链模式
+>使多个对象都有机会处理请求, 从而避免了请求的发送者与读个接收者直接的耦合关系, 将这些接收者连接成一条链, 顺着这条链传递该请求, 直到找到能处理该请求的对象
+
+优点: 
+
+1.  符合单一职责, 使每个方法中都只有一个职责
+2.  符合开放封闭原则, 在需求增加时可以很方便的扩充新的责任
+3.  使用时候不需要知道谁才是真正处理方法, 减少大量的**if**或**switch**语法
+
+缺点:
+
+1.  团队成员需要对责任链存在共识, 否则当看到一个方法莫名其妙的返回一个next时一定会很奇怪
+2.  出错时不好排查问题, 因为不知道到底在哪个责任中出的错, 需要从链头开始往后找
