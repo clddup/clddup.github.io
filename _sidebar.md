@@ -7,6 +7,7 @@
 	* [React](前端/React/)
     * [Babel](前端/Babel/)
 * [Node](Node/)
+* [Electron](Electron/)
 * [Linux](Linux/)
 * [GitLab-runner](GitLab-runner/)
 * [正则](正则/)
