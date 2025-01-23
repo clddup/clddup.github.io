@@ -155,3 +155,7 @@
 .collapsed {
     height: var(--collapsedHeight);
 }
+
+body > canvas {
+    z-index: 1000;
+}

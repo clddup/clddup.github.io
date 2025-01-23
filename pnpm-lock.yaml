@@ -59,6 +59,9 @@ importers:
       astro-icon:
         specifier: ^1.1.4
         version: 1.1.4
+      cursor-effects:
+        specifier: ^1.0.17
+        version: 1.0.17
       hastscript:
         specifier: ^9.0.0
         version: 9.0.0
@@ -2302,6 +2305,9 @@ packages:
   csso@5.0.5:
     resolution: {integrity: sha512-0LrrStPOdJj+SPCCrGhzryycLjwcgUSHBtxNA8aIDxf0GLsRh1cKYhB00Gd1lDOS4yGH69+SNn13+TWbVHETFQ==}
     engines: {node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0, npm: '>=7.0.0'}
+
+  cursor-effects@1.0.17:
+    resolution: {integrity: sha512-IUMgMgc9Ii/BZnngHZmg/SpUvHaJAC+zqxmWIU4DnJY9RN5eb2xEGB9yL2jrdihMs+9xLgRuNNPYVaUrhASTNA==}
 
   data-view-buffer@1.0.1:
     resolution: {integrity: sha512-0lht7OugA5x3iJLOWFhWK/5ehONdprk0ISXqVFn/NFrDu+cuc8iADFrGQz5BnRK7LLU3JmkbXSxaqX+/mXYtUA==}
@@ -7573,6 +7579,8 @@ snapshots:
   csso@5.0.5:
     dependencies:
       css-tree: 2.2.1
+
+  cursor-effects@1.0.17: {}
 
   data-view-buffer@1.0.1:
     dependencies:
