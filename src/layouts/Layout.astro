@@ -5,7 +5,7 @@ import '@fontsource/roboto/700.css'
 
 import { profileConfig, siteConfig } from '@/config'
 import ConfigCarrier from '@components/ConfigCarrier.astro'
-import CursorEffects from '@components/CursorEffects.vue'
+import CursorEffects from '@components/CursorEffects.svelte'
 import {
   AUTO_MODE,
   BANNER_HEIGHT,
@@ -157,7 +157,7 @@ const bannerOffset =
 
 		<!-- increase the page height during page transition to prevent the scrolling animation from jumping -->
 		<div id="page-height-extend" class="hidden h-[300vh]"></div>
-		<CursorEffects client:load />
+		<CursorEffects client:only />
 	</body>
 </html>
 
